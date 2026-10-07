@@ -6,6 +6,8 @@
  *    Timestamp | Name | Email | Company | Service | Message
  * 2. Extensions > Apps Script. Paste this file in.
  * 3. Project Settings > Script properties > add  SECRET = <long random string>
+ *    (Only if the script was NOT opened from the sheet, also add SHEET_ID = the long id in the
+ *    sheet URL: docs.google.com/spreadsheets/d/<SHEET_ID>/edit)
  * 4. Deploy > New deployment > type "Web app"
  *      Execute as: Me
  *      Who has access: Anyone
@@ -21,7 +23,11 @@ function doPost(e) {
     var secret = PropertiesService.getScriptProperties().getProperty("SECRET");
     if (!secret || data.secret !== secret) return json({ ok: false, error: "unauthorized" });
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    // Bound script (opened from the sheet via Extensions > Apps Script): uses that sheet.
+    // Standalone script (script.google.com): set a SHEET_ID script property instead.
+    var sheetId = PropertiesService.getScriptProperties().getProperty("SHEET_ID");
+    var ss = sheetId ? SpreadsheetApp.openById(sheetId) : SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheets()[0];
     sheet.appendRow([
       new Date(),
       clean(data.name),

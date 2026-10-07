@@ -61,10 +61,24 @@ export async function POST(request: Request) {
       body: JSON.stringify({ ...data, secret }),
       redirect: "follow",
     });
-    const result = await res.json().catch(() => null);
-    if (!res.ok || !result?.ok) throw new Error("Sheet write failed");
+    const raw = await res.text();
+    let result: { ok?: boolean; error?: string } | null = null;
+    try {
+      result = JSON.parse(raw);
+    } catch {}
+    if (!res.ok || !result?.ok) {
+      // Visible in Vercel > Logs (or the dev terminal); never sent to the browser.
+      console.error("[contact] Apps Script rejected request", {
+        status: res.status,
+        finalUrl: res.url.split("?")[0],
+        error: result?.error,
+        body: result ? undefined : raw.slice(0, 200),
+      });
+      throw new Error("Sheet write failed");
+    }
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error("[contact] failed", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "We could not send your message. Please email us directly." }, { status: 502 });
   }
 }
