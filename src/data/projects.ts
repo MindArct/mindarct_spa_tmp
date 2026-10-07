@@ -11,6 +11,7 @@ export type Project = {
   features: string[];
   stack: string[];
   outcome: string;
+  liveUrl?: string;
   images: { src: string; alt: string }[];
 };
 
@@ -37,6 +38,7 @@ export const projects: Project[] = [
     ],
     stack: ["TanStack Start", "TypeScript", "Tailwind", "Supabase"],
     outcome: "One polished home for the studio's portfolio, with enquiries arriving through a single booking flow.",
+    liveUrl: "https://cartnuvia.com",
     images: shots("ree-gallery", ["Home", "Albums", "Album details", "Booking"], "webp"),
   },
   {

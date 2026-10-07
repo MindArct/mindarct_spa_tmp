@@ -29,6 +29,16 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         <span className="text-xs font-semibold uppercase tracking-wider gradient-text">{project.category}</span>
         <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">{project.title}</h1>
         <p className="mt-4 text-lg text-muted">{project.summary}</p>
+        {project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="gradient-bg mt-6 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold text-black transition hover:opacity-90"
+          >
+            Visit live site ↗
+          </a>
+        )}
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
