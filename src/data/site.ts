@@ -7,8 +7,8 @@ export const site = {
     "MindArct builds custom software, AI automation and SaaS products, and helps teams migrate data between platforms with confidence.",
   email: "hello@mindarct.com", // TODO: replace with your real address
   socials: [
-    { label: "GitHub", href: "https://github.com/" }, // TODO
-    { label: "LinkedIn", href: "https://linkedin.com/" }, // TODO
+    { label: "GitHub", href: "https://github.com/MindArct" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/mindarct" }, 
   ],
 };
 
